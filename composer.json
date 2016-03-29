@@ -1,0 +1,22 @@
+{
+  "name": "elsuperbeano/php-changelog",
+  "description": "Changelog generator",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Marius Schütte",
+      "email": "marius.schuette@gmail.com"
+    }
+  ],
+  "require": {
+    "php" : ">=5.4"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.8.21"
+  },
+  "autoload": {
+    "psr-4": {
+      "PhpChangelog\\": "src/"
+    }
+  }
+}
