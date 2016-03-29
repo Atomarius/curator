@@ -10,7 +10,7 @@ $config = [
         'perf'     => 'Performance Improvements', // A code change that improves performance
         'test'     => 'Test', // Adding missing tests
         'chore'    => 'Chore', // Changes to the build process or auxiliary tools and libraries such as documentation generation
-        'misc'     => 'Micellaneous'
+        'misc'     => 'Miscellaneous'
     ],
 ];
 
@@ -19,14 +19,21 @@ exec($command, $output);
 
 $types = implode('|', array_keys($config['type']));
 $pattern = "/(?<type>$types)\((?<scope>.*)\):(?<message>.*)/";
-//$pattern = "/(?<type>$types)(?<message>.*)/";
-//print_r($pattern);
 $changelog = [];
 
 foreach ($output as $commit) {
     if (preg_match($pattern, $commit, $matches)) {
-        print_r($matches);
+        $changelog[$matches['type']][$commit] = $matches;
     } else {
-        $changelog['misc'][] = $commit;
+        $changelog['misc'][$commit] = ['scope' => '', 'message' => $commit];
+    }
+}
+
+foreach (array_keys($changelog) as $type) {
+    $type_template = '### %s';
+    echo sprintf($type_template, $config['type'][$type]) . PHP_EOL;
+    foreach ($changelog[$type] as $change) {
+        $template = '-- *%s* %s' . PHP_EOL;
+        echo sprintf($template, $change['scope'], trim($change['message']));
     }
 }
