@@ -4,6 +4,7 @@ chdir(getcwd());
 
 $config = [
     'message-pattern' => "/(?<type>.*)\((?<scope>.*)\):(?<message>.*)/",
+    'sort-by' => 'type',
     'type'            => [
         'feat'     => 'Features', // A new feature
         'fix'      => 'Bug Fixes', // A bug fix
@@ -64,11 +65,11 @@ function parse_commits($config, $content)
 function write_log($filename, $config, $changelog)
 {
     $type_template = PHP_EOL . PHP_EOL . '### %s';
-    $template = PHP_EOL . '* *%s*: %s';
+    $template = PHP_EOL . '* **%s**: %s';
     file_exists($filename) && unlink($filename);
-    foreach (array_keys($config['type']) as $type) {
+    foreach (array_keys($config[$config['sort-by']]) as $type) {
         if (isset($changelog[$type])) {
-            $data = sprintf($type_template, $config['type'][$type]);
+            $data = sprintf($type_template, $config[$config['sort-by']][$type]);
             file_put_contents($filename, $data, FILE_APPEND);
             foreach ($changelog[$type] as $message) {
                 $data = sprintf($template, trim($message['scope']), trim($message['message']));
@@ -77,7 +78,7 @@ function write_log($filename, $config, $changelog)
         }
     }
     if (isset($changelog['ignored'])) {
-        $data = sprintf($type_template, 'None');
+        $data = sprintf($type_template, 'Uncategorized');
         file_put_contents($filename, $data, FILE_APPEND);
         foreach ($changelog['ignored'] as $message) {
             $data = sprintf($template, 'none', trim($message));
