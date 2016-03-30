@@ -3,7 +3,7 @@
 chdir(getcwd());
 
 $config = [
-    'message-pattern' => "/(?<type>.*)\((?<scope>.*)\):(?<message>.*)/",
+    'message-pattern' => "/(?<type>.+)\((?<scope>.+)\):(?<message>.+)/",
     'sort-by' => 'type',
     'type'            => [
         'feat'     => 'Features', // A new feature
