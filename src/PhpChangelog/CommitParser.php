@@ -8,12 +8,13 @@ class CommitParser
     private $fields = [];
 
     /**
-     * @param $pattern
+     * @param array $options
      */
-    public function __construct($pattern)
+    public function __construct($options)
     {
-        $this->pattern = $pattern;
-        preg_match('/<(\w*)>/', $pattern, $this->fields);
+        $this->pattern = $options['pattern'];
+        preg_match_all('/<(\w*)>/', $this->pattern, $fields);
+        $this->fields = $fields[1];
     }
 
     public function parse($commit)
@@ -23,6 +24,8 @@ class CommitParser
             foreach ($this->fields as $field) {
                 $message[$field] = $matches[$field];
             }
+        } else {
+            $message = $commit;
         }
 
         return $message;
