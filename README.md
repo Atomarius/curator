@@ -1,1 +1,1 @@
-`php ./bin/changelog.php` and watch the magic
+`php changelog.php` and watch the magic
