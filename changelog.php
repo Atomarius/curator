@@ -1,11 +1,15 @@
 #!/usr/bin/php
 <?php
-chdir(getcwd());
+$basePath = getcwd();
+
+if (file_exists("$basePath/vendor/autoload.php")) {
+    require_once "$basePath/vendor/autoload.php";
+}
 
 $config = [
-    'message-pattern' => "/(?<type>.+)\((?<scope>.+)\):(?<message>.+)/",
+    'pattern' => "/(?<type>.+)\((?<scope>.+)\):(?<message>.+)/",
     'sort-by' => 'type',
-    'type'            => [
+    'type'    => [
         'feat'     => 'Features', // A new feature
         'fix'      => 'Bug Fixes', // A bug fix
         'docs'     => 'Documentation', // Documentation only changes
@@ -18,71 +22,45 @@ $config = [
     ],
 ];
 
-$options = [];
-$options['from'] = isset($options['from']) ? $options['from'] : '';
-$options['to'] = isset($options['to']) ? $options['to'] : 'HEAD';
-
-$range = !empty($options['from']) ? implode('..', [$options['from'], $options['to']]) : $options['to'];
-$command = "git log {$range} --pretty=format:%s";
-
-exec($command, $output);
-
-$changelog = parse_commits($config, $output);
-$filename = "CHANGELOG-{$range}.md";
-write_log($filename, $config, $changelog);
-
-/**
- * @param array $config
- * @param array $content
- *
- * @return array
- */
-function parse_commits($config, $content)
-{
-    $changelog = [];
-    preg_match_all('/<(\w*)>/', $config['message-pattern'], $fields);
-
-    foreach ($content as $commit) {
-        $message = [];
-        if (preg_match($config['message-pattern'], $commit, $matches)) {
-            foreach ($fields[1] as $field) {
-                $message[$field] = isset($matches[$field]) ? $matches[$field] : 'misc';
-            }
-            $changelog[$message['type']][$commit] = $message;
-        } else {
-            $changelog['ignored'][$commit] = $commit;
-        }
-    }
-
-    return $changelog;
+$commitParser = new \PhpChangelog\CommitParser($config);
+$output = (new \PhpChangelog\GitReader())->read();
+$messages = [];
+foreach ($output as $commit) {
+    $messages[] = $commitParser->parse($commit);
 }
+
+$filename = "CHANGELOG.tmp.md";
+write_log($filename, $config, $messages);
 
 /**
  * @param string $filename
- * @param array $config
- * @param array $changelog
+ * @param array  $config
+ * @param array  $messages
  */
-function write_log($filename, $config, $changelog)
+function write_log($filename, $config, $messages)
 {
     $type_template = PHP_EOL . PHP_EOL . '### %s';
     $template = PHP_EOL . '* **%s**: %s';
     file_exists($filename) && unlink($filename);
     foreach (array_keys($config[$config['sort-by']]) as $type) {
-        if (isset($changelog[$type])) {
-            $data = sprintf($type_template, $config[$config['sort-by']][$type]);
-            file_put_contents($filename, $data, FILE_APPEND);
-            foreach ($changelog[$type] as $message) {
+        $data = sprintf($type_template, $config[$config['sort-by']][$type]);
+        file_put_contents($filename, $data, FILE_APPEND);
+        foreach ($messages as $message) {
+            if (is_array($message) && isset($message[$config['sort-by']]) && $message[$config['sort-by']] == $type) {
                 $data = sprintf($template, trim($message['scope']), trim($message['message']));
                 file_put_contents($filename, $data, FILE_APPEND);
             }
         }
     }
-    if (isset($changelog['ignored'])) {
+
+    if (!empty($uncategorized)) {
         $data = sprintf($type_template, 'Uncategorized');
         file_put_contents($filename, $data, FILE_APPEND);
-        foreach ($changelog['ignored'] as $message) {
-            $data = sprintf($template, 'none', trim($message));
-            file_put_contents($filename, $data, FILE_APPEND);
+        foreach ($uncategorized as $message) {
+            if (is_string($message)) {
+                $data = sprintf($template, 'none', trim($message));
+                file_put_contents($filename, $data, FILE_APPEND);
+            }
         }
     }
 }
