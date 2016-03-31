@@ -29,38 +29,4 @@ foreach ($output as $commit) {
     $messages[] = $commitParser->parse($commit);
 }
 
-$filename = "CHANGELOG.tmp.md";
-write_log($filename, $config, $messages);
-
-/**
- * @param string $filename
- * @param array  $config
- * @param array  $messages
- */
-function write_log($filename, $config, $messages)
-{
-    $type_template = PHP_EOL . PHP_EOL . '### %s';
-    $template = PHP_EOL . '* **%s**: %s';
-    file_exists($filename) && unlink($filename);
-    foreach (array_keys($config[$config['sort-by']]) as $type) {
-        $data = sprintf($type_template, $config[$config['sort-by']][$type]);
-        file_put_contents($filename, $data, FILE_APPEND);
-        foreach ($messages as $message) {
-            if (is_array($message) && isset($message[$config['sort-by']]) && $message[$config['sort-by']] == $type) {
-                $data = sprintf($template, trim($message['scope']), trim($message['message']));
-                file_put_contents($filename, $data, FILE_APPEND);
-            }
-        }
-    }
-
-    if (!empty($uncategorized)) {
-        $data = sprintf($type_template, 'Uncategorized');
-        file_put_contents($filename, $data, FILE_APPEND);
-        foreach ($uncategorized as $message) {
-            if (is_string($message)) {
-                $data = sprintf($template, 'none', trim($message));
-                file_put_contents($filename, $data, FILE_APPEND);
-            }
-        }
-    }
-}
+(new \PhpChangelog\MarkdownWriter($config, 'CHANGELOG.tmp.md'))->write($messages);
