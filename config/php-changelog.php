@@ -1,6 +1,9 @@
 <?php
 return [
     'pattern' => "/(?<type>.+)\((?<scope>.+)\):(?<message>.+)/",
+    'list-header-template' => PHP_EOL . PHP_EOL . '### <type>' . PHP_EOL,
+    'list-entry-template' => '* **<scope>**: <message>',
+    'list-default-template' => '* <default>',
     'sort-by' => 'type',
     'type'    => [
         'feat'     => 'Features', // A new feature
