@@ -4,12 +4,11 @@ namespace PhpChangelog;
 
 class FieldProcessor
 {
+    /** @var string */
     private $pattern;
+    /** @var string */
     private $replace;
 
-    /**
-     * FieldProcessor constructor.
-     */
     public function __construct()
     {
         $this->pattern = '/[A-Z]+\-\d+/';
@@ -20,10 +19,10 @@ class FieldProcessor
     {
         $matches = [];
         if (preg_match_all($this->pattern, $value, $matches)) {
-           foreach ($matches[0] as $match) {
-               $replace = str_replace('<match>', $match, $this->replace);
-               $value = str_replace($match, $replace, $value);
-           }
+            foreach ($matches[0] as $match) {
+                $replace = str_replace('<match>', $match, $this->replace);
+                $value = str_replace($match, $replace, $value);
+            }
         }
 
         return $value;
