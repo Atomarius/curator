@@ -1,8 +1,8 @@
 <?php
 return [
-    'pattern' => "/(?<type>\w+)\((?<scope>.+)\):\s(?<message>.+)/",
+    'pattern' => "/(?<type>\w+)\((?<scope>.+)\):\s(?<subject>.+)/",
     'list-header-template' => PHP_EOL . PHP_EOL . '### <type>' . PHP_EOL,
-    'list-entry-template' => '* **<scope>**: <message>',
+    'list-entry-template' => '* **<scope>**: <subject>',
     'list-default-template' => '* <default>',
     'sort-by' => 'type',
     'type'    => [
