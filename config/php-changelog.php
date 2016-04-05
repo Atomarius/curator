@@ -20,10 +20,10 @@ return [
     'CommitParser'          => function (ContainerInterface $c) {
         return new \PhpChangelog\CommitParser($c->get('CommitParser.pattern'));
     },
-    'JiraLinkProcessor.pattern' => '/[A-Z]+\-\d+/',
+    'JiraLinkProcessor.pattern' => '/(?<match>[A-Z]+\-\d+)/',
     'JiraLinkProcessor.replace' => '[<match>](http://myurl/<match>)',
     'CommitParser.pattern' => '/(?<type>\w+)\((?<scope>.+)\):\s(?<subject>.+)/',
-    'commit-msg.pattern' => '/(?<type>\w+)\((?<scope>.+)\):\s(?<subject>.+)/',
+    'commit-msg.pattern' => '/\w+\(.+\):\s.+/',
     'MarkdownWriter.processors' => [
         'scope' => 'JiraLinkProcessor',
     ],

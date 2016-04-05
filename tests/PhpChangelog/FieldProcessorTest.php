@@ -9,7 +9,7 @@ class FieldProcessorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $pattern = '/[A-Z]+\-\d+/';
+        $pattern = '/(?<match>[A-Z]+\-\d+)/';
         $replace = '[<match>](http://myurl/<match>)';
         $this->fixture = new FieldProcessor($pattern, $replace);
     }
@@ -17,8 +17,7 @@ class FieldProcessorTest extends \PHPUnit_Framework_TestCase
     public function testReplacesMatches()
     {
         $value = 'PSP-1234,SHOP-1234';
-        $expected = '[PSP-1234](http://myurl/PSP-1234)'
-            . ',[SHOP-1234](http://myurl/SHOP-1234)';
+        $expected = '[PSP-1234](http://myurl/PSP-1234),[SHOP-1234](http://myurl/SHOP-1234)';
         $this->assertEquals($expected, $this->fixture->process($value));
     }
 
