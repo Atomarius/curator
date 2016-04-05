@@ -18,7 +18,7 @@ foreach ($dir as $directory) {
     }
 }
 
-$definitions = array_replace_recursive($definitions, include __DIR__ . '/config/services.php');
+$definitions = array_replace_recursive($definitions, include "{$dir['app']}/config/services.php");
 
 // creating lightweight DI container
 $container = \Curator\Application\ContainerBuilder::build($definitions);
