@@ -11,10 +11,9 @@ if (file_exists("{$dir['cwd']}/vendor/autoload.php")) {
 }
 
 $definitions = [];
-$definitions = include "{$dir['app']}/config/curator.php";
 
 foreach ($dir as $directory) {
-    if (file_exists("{$directory}/config/php-changelog.php")) {
+    if (file_exists("{$directory}/config/curator.php")) {
         $definitions = array_replace_recursive($definitions, include "{$directory}/config/curator.php");
     }
 }
