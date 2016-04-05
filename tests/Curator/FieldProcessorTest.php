@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpChangelog;
+namespace Curator;
 
 class FieldProcessorTest extends \PHPUnit_Framework_TestCase
 {

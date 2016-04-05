@@ -1,5 +1,5 @@
 {
-  "name": "elsuperbeano/php-changelog",
+  "name": "elsuperbeano/curator",
   "description": "Changelog generator",
   "license": "MIT",
   "authors": [
@@ -18,15 +18,15 @@
   },
   "autoload": {
     "psr-0": {
-      "PhpChangelog\\": "src/"
+      "Curator\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-0": {
-      "PhpChangelog\\": "tests/"
+      "Curator\\": "tests/"
     }
   },
   "bin": [
-    "pcl.php"
+    "curator.php"
   ]
 }

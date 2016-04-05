@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpChangelog;
+namespace Curator;
 
 class CommitParserTest extends \PHPUnit_Framework_TestCase
 {

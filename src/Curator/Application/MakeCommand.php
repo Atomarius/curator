@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpChangelog\Application;
+namespace Curator\Application;
 
 use Interop\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;

@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpChangelog;
+namespace Curator;
 
 class MarkdownWriter
 {
@@ -69,7 +69,7 @@ class MarkdownWriter
     private function applyProcessor($field, $value)
     {
         if (isset($this->fieldProcessors[$field])) {
-            /** @var $processor \PhpChangelog\FieldProcessor */
+            /** @var $processor \Curator\FieldProcessor */
             $processor = $this->fieldProcessors[$field];
 
             return $processor->process($value);
