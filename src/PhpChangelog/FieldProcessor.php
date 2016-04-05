@@ -16,6 +16,8 @@ class FieldProcessor
     public function __construct($pattern, $replace)
     {
         $this->pattern = $pattern;
+        preg_match_all('/<(\w*)>/', $this->pattern, $fields);
+        $this->fields = $fields[1];
         $this->replace = $replace;
     }
 
@@ -28,10 +30,13 @@ class FieldProcessor
     {
         $matches = [];
         if (preg_match_all($this->pattern, $value, $matches)) {
-            foreach ($matches[0] as $match) {
-                $replace = str_replace('<match>', $match, $this->replace);
-                $value = str_replace($match, $replace, $value);
+            foreach ($this->fields as $field) {
+                foreach ($matches[$field] as $match) {
+                    $replace = str_replace("<{$field}>", $match, $this->replace);
+                    $value = str_replace($match, $replace, $value);
+                }
             }
+
         }
 
         return $value;
