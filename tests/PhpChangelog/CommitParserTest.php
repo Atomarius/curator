@@ -9,8 +9,8 @@ class CommitParserTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $options = ['pattern' => "/(?<type>\w+)\((?<scope>.+)\):\s(?<subject>.+)/"];
-        $this-> fixture = new CommitParser($options);
+        $pattern = "/(?<type>\w+)\((?<scope>.+)\):\s(?<subject>.+)/";
+        $this-> fixture = new CommitParser($pattern);
     }
 
     public function testParseReturnsArrayOnMatch()

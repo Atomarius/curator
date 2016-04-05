@@ -9,12 +9,21 @@ class FieldProcessor
     /** @var string */
     private $replace;
 
-    public function __construct()
+    /**
+     * @param string $pattern
+     * @param string $replace
+     */
+    public function __construct($pattern, $replace)
     {
-        $this->pattern = '/[A-Z]+\-\d+/';
-        $this->replace = '[<match>](http://jira.goodgamestudios.com/browse/<match>)';
+        $this->pattern = $pattern;
+        $this->replace = $replace;
     }
 
+    /**
+     * @param string $value
+     *
+     * @return string
+     */
     public function process($value)
     {
         $matches = [];

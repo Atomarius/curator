@@ -8,11 +8,11 @@ class CommitParser
     private $fields = [];
 
     /**
-     * @param array $options
+     * @param string $pattern
      */
-    public function __construct($options)
+    public function __construct($pattern)
     {
-        $this->pattern = $options['pattern'];
+        $this->pattern = $pattern;
         preg_match_all('/<(\w*)>/', $this->pattern, $fields);
         $this->fields = $fields[1];
     }
