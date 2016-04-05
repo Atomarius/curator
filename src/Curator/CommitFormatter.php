@@ -15,6 +15,7 @@ class CommitFormatter
 
     /**
      * @param array $config
+     * @param array $processors
      */
     public function __construct($config, $processors)
     {
@@ -66,9 +67,9 @@ class CommitFormatter
      */
     private function applyProcessor($field, $value)
     {
-        if (isset($this->fieldProcessors[$field])) {
+        if (isset($this->processors[$field])) {
             /** @var $processor \Curator\FieldFormatter */
-            $processor = $this->fieldProcessors[$field];
+            $processor = $this->processors[$field];
 
             return $processor->process($value);
         }
