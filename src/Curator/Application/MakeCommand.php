@@ -2,6 +2,7 @@
 
 namespace Curator\Application;
 
+use Curator\ChangelogWriter;
 use Interop\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -25,17 +26,11 @@ class MakeCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $container = $this->container;
+        /** @var ChangelogWriter $changelogWriter */
+        $changelogWriter = $this->container->get('ChangelogWriter');
+        $filename = 'CHANGELOG_TMP.md';
 
-        $commitParser = $container->get('CommitParser');
-        $commits = $container->get('GitReader')->read();
-        $messages = [];
-        foreach ($commits as $commit) {
-            $messages[] = $commitParser->parse($commit);
-        }
-
-        $container->get('MarkdownWriter')->write($messages);
-        $filename = $container->get('MarkdownWriter.config')['filename'];
+        $changelogWriter->write($filename);
         $output->writeln("Changelog generated {$filename}");
 
         return 0;

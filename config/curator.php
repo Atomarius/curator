@@ -1,19 +1,21 @@
 <?php
 return [
-    'JiraLinkProcessor.pattern' => '/(?<match>[A-Z]+\-\d+)/',
-    'JiraLinkProcessor.replace' => '[<match>](http://myurl/<match>)',
-    'CommitParser.pattern' => '/(?<type>\w+)\((?<scope>.+)\):\s(?<subject>.+)/',
-    'commit-msg.pattern' => '/\w+\(.+\):\s.+/',
-    'MarkdownWriter.processors' => [
-        'scope' => 'JiraLinkProcessor',
+    'JiraLinkFormatter.config'   => [
+        'pattern' => '/(?<match>[A-Z]+\-\d+)/',
+        'replace' => '[<match>](http://myurl/<match>)',
     ],
-    'MarkdownWriter.config'   => [
-        'filename' => 'CHANGELOG_TMP.md',
-        'list-header-template'  => PHP_EOL . PHP_EOL . '### <type>' . PHP_EOL,
-        'list-entry-template'   => '* **<scope>**: <subject>',
-        'list-default-template' => '* <default>',
-        'sort-by'               => 'type',
-        'type'                  => [
+    'CommitFormatter.config'     => [
+        'pattern' => '/(?<type>\w+)\((?<scope>.+)\):\s(?<subject>.+)/',
+        'replace' => '* **<scope>**: <subject>',
+        'index'   => 'type',
+    ],
+    'CommitFormatter.processors' => [
+        'scope' => 'JiraLinkFormatter',
+    ],
+    'commit-msg.pattern'         => '/\w+\(.+\):\s.+/',
+    'ChangelogWriter.config'      => [
+        'replace'  => PHP_EOL . PHP_EOL . '### <index>' . PHP_EOL,
+        'index'    => [
             'feat'     => 'Features', // A new feature
             'fix'      => 'Bug Fixes', // A bug fix
             'docs'     => 'Documentation', // Documentation only changes

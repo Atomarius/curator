@@ -2,29 +2,34 @@
 use Interop\Container\ContainerInterface;
 
 return [
-    'Application' => function (ContainerInterface $c) {
+    'Application'       => function (ContainerInterface $c) {
         $app = new \Symfony\Component\Console\Application();
         $app->add(new \Curator\Application\MakeCommand($c));
         $app->add(new \Curator\Application\ApplyCommand($c));
 
         return $app;
     },
-    'JiraLinkProcessor'         => function (ContainerInterface $c) {
-        $pattern = $c->get('JiraLinkProcessor.pattern');
-        $replace = $c->get('JiraLinkProcessor.replace');
-        return new \Curator\FieldProcessor($pattern, $replace);
+    'JiraLinkFormatter' => function (ContainerInterface $c) {
+        $config = $c->get('JiraLinkFormatter.config');
+
+        return new \Curator\FieldFormatter($config);
     },
-    'GitReader'             => function (ContainerInterface $c) {
+    'GitReader'         => function (ContainerInterface $c) {
         return new \Curator\GitReader();
     },
-    'MarkdownWriter'        => function (ContainerInterface $c) {
-        $fieldProcessors = [];
-        foreach ($c->get('MarkdownWriter.processors') as $field => $processor) {
-            $fieldProcessors[$field] = $c->get($processor);
-        }
-        return new \Curator\MarkdownWriter($c->get('MarkdownWriter.config'), $fieldProcessors);
+    'ChangelogWriter'   => function (ContainerInterface $c) {
+        return new \Curator\ChangelogWriter(
+            $c->get('ChangelogWriter.config'),
+            $c->get('GitReader'),
+            $c->get('CommitFormatter')
+        );
     },
-    'CommitParser'          => function (ContainerInterface $c) {
-        return new \Curator\CommitParser($c->get('CommitParser.pattern'));
+    'CommitFormatter'   => function (ContainerInterface $c) {
+        $processors = [];
+        foreach ($c->get('CommitFormatter.processors') as $field => $processor) {
+            $processors[$field] = $c->get($processor);
+        }
+
+        return new \Curator\CommitFormatter($c->get('CommitFormatter.config'), $processors);
     },
 ];

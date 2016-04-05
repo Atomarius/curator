@@ -2,16 +2,18 @@
 
 namespace Curator;
 
-class FieldProcessorTest extends \PHPUnit_Framework_TestCase
+class FieldFormatterTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var FieldProcessor */
+    /** @var FieldFormatter */
     private $fixture;
 
     protected function setUp()
     {
-        $pattern = '/(?<foo>[A-Z]+\-\d+)/';
-        $replace = '[<foo>](http://myurl/<foo>)';
-        $this->fixture = new FieldProcessor($pattern, $replace);
+        $config = [
+            'pattern' => '/(?<foo>[A-Z]+\-\d+)/',
+            'replace' => '[<foo>](http://myurl/<foo>)'
+        ];
+        $this->fixture = new FieldFormatter($config);
     }
 
     public function testReplacesMatches()

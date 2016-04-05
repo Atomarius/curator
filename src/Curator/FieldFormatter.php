@@ -2,25 +2,39 @@
 
 namespace Curator;
 
-class FieldProcessor
+use Curator\InvalidConfigurationException;
+
+class FieldFormatter
 {
     /** @var string */
     private $pattern;
     /** @var string */
     private $replace;
+    /** @var array */
+    private $fields = [];
 
     /**
-     * @param string $pattern
-     * @param string $replace
+     * @param array $config
      */
-    public function __construct($pattern, $replace)
+    public function __construct($config)
     {
-        $this->pattern = $pattern;
-        preg_match_all('/<(\w*)>/', $this->pattern, $fields);
+        $this->assertConfigIsValid($config);
+        $this->pattern = $config['pattern'];
+        preg_match_all('/<(\w+)>/', $this->pattern, $fields);
         $this->fields = $fields[1];
-        $this->replace = $replace;
+        $this->replace = $config['replace'];
     }
 
+    private function assertConfigIsValid($config)
+    {
+        $required = ['pattern', 'replace'];
+        foreach ($required as $field) {
+            if (!isset($config[$field])) {
+                throw InvalidConfigurationException::create($field);
+            }
+        }
+    }
+    
     /**
      * @param string $value
      *
@@ -36,7 +50,6 @@ class FieldProcessor
                     $value = str_replace($match, $replace, $value);
                 }
             }
-
         }
 
         return $value;
