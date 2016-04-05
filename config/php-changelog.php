@@ -2,6 +2,13 @@
 use Interop\Container\ContainerInterface;
 
 return [
+    'Application' => function (ContainerInterface $c) {
+        $app = new \Symfony\Component\Console\Application();
+        $app->add(new \PhpChangelog\Application\MakeCommand($c));
+        $app->add(new \PhpChangelog\Application\ApplyCommand($c));
+
+        return $app;
+    },
     'JiraLinkProcessor'         => function (ContainerInterface $c) {
         $pattern = $c->get('JiraLinkProcessor.pattern');
         $replace = $c->get('JiraLinkProcessor.replace');
@@ -28,7 +35,7 @@ return [
         'scope' => 'JiraLinkProcessor',
     ],
     'MarkdownWriter.config'   => [
-        'filename' => 'CHANGELOG.tmp.md',
+        'filename' => 'CHANGELOG_TMP.md',
         'list-header-template'  => PHP_EOL . PHP_EOL . '### <type>' . PHP_EOL,
         'list-entry-template'   => '* **<scope>**: <subject>',
         'list-default-template' => '* <default>',

@@ -13,13 +13,5 @@ if (file_exists("{$basePath}/config/php-changelog.php")) {
 }
 
 // creating lightweight DI container
-$container = \PhpChangelog\ContainerBuilder::build($definitions);
-
-$commitParser = $container->get('CommitParser');
-$output = $container->get('GitReader')->read();
-$messages = [];
-foreach ($output as $commit) {
-    $messages[] = $commitParser->parse($commit);
-}
-
-$container->get('MarkdownWriter')->write($messages);
+$container = \PhpChangelog\Application\ContainerBuilder::build($definitions);
+$container->get('Application')->run();

@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpChangelog;
+namespace PhpChangelog\Application;
 
 class ContainerBuilder
 {
