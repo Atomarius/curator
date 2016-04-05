@@ -1,16 +1,25 @@
 #!/usr/bin/php
 <?php
-$basePath = getcwd();
 
-if (file_exists("{$basePath}/vendor/autoload.php")) {
-    require_once "{$basePath}/vendor/autoload.php";
+$dir = [
+    'cwd' => getcwd(),
+    'app' => __DIR__,
+];
+
+if (file_exists("{$dir['cwd']}/vendor/autoload.php")) {
+    require_once "{$dir['cwd']}/vendor/autoload.php";
 }
 
-$definitions = include __DIR__ . '/config/php-changelog.php';
+$definitions = [];
+$definitions = include "{$dir['app']}/config/php-changelog.php";
 
-if (file_exists("{$basePath}/config/php-changelog.php")) {
-    $definitions = array_replace_recursive($definitions, include "{$basePath}/config/php-changelog.php");
+foreach ($dir as $directory) {
+    if (file_exists("{$directory}/config/php-changelog.php")) {
+        $definitions = array_replace_recursive($definitions, include "{$directory}/config/php-changelog.php");
+    }
 }
+
+$definitions = array_replace_recursive($definitions, include __DIR__ . '/config/services.php');
 
 // creating lightweight DI container
 $container = \PhpChangelog\Application\ContainerBuilder::build($definitions);
