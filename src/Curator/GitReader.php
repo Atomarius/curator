@@ -19,6 +19,7 @@ class GitReader
     {
         $opts['from'] = isset($opts['from']) ? $opts['from'] : '';
         $opts['to'] = isset($opts['to']) ? $opts['to'] : 'HEAD';
+        $opts['from'] = isset($opts['lockfile']) ? file_get_contents($opts['lockfile']) : $opts['from'];
         $opts['range'] = !empty($opts['from']) ? implode('..', [$opts['from'], $opts['to']]) : $opts['to'];
 
         return $opts;

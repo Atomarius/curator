@@ -29,10 +29,11 @@ class MakeCommand extends Command
                 'filename',
                 InputArgument::OPTIONAL,
                 'Name of outputfile',
-                'CHANGELOG_TMP.md'
-            );
-//        ->addOption('from', null, InputOption::VALUE_REQUIRED)
-//        ->addOption('to', null, InputOption::VALUE_REQUIRED);
+                'CHANGELOG_TMP'
+            )
+        ->addOption('from', null, InputOption::VALUE_REQUIRED)
+        ->addOption('to', null, InputOption::VALUE_REQUIRED)
+        ->addOption('lockfile', null, InputOption::VALUE_REQUIRED);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -40,7 +41,7 @@ class MakeCommand extends Command
         /** @var ChangelogWriter $changelogWriter */
         $changelogWriter = $this->container->get('ChangelogWriter');
         $filename = $input->getArgument('filename');
-        $changelogWriter->write($filename);
+        $changelogWriter->write($filename, $input->getOptions());
         $output->writeln("Changelog generated {$filename}");
 
         return 0;
