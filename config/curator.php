@@ -12,7 +12,6 @@ return [
     'CommitFormatter.processors' => [
         'scope' => 'JiraLinkFormatter',
     ],
-    'commit-msg.pattern'         => '/\w+\(.+\):\s.+/',
     'ChangelogWriter.config'      => [
         'replace'  => PHP_EOL . PHP_EOL . '### <index>' . PHP_EOL,
         'index'    => [
