@@ -1,8 +1,7 @@
 #!/usr/bin/env php
 <?php
-$config = include dirname(__DIR__) . '/config/curator.php';
 $line = fgets(fopen($argv[1], 'r'));
-if (!preg_match($config['commit-msg.pattern'], $line)) {
+if (!preg_match('/\w+\(.+\):\s.+/', $line)) {
     echo '[POLICY] Your message is not formatted correctly';
     exit(1);
 }
