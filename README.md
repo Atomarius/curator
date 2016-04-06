@@ -26,5 +26,5 @@ $ php composer.phar require elsuperbeano/curator
 ## Run
 
 ```sh
-$ ./vendor/bin/curator.php
+$ ./vendor/bin/curator
 ```

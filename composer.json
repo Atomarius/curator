@@ -28,6 +28,6 @@
     }
   },
   "bin": [
-    "curator.php"
+    "bin/curator"
   ]
 }

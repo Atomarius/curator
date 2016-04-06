@@ -1,9 +1,9 @@
-#!/usr/bin/php
+#!/usr/bin/env php
 <?php
 
 $dir = [
     'cwd' => getcwd(),
-    'app' => __DIR__,
+    'app' => dirname(__DIR__),
 ];
 
 if (file_exists("{$dir['cwd']}/vendor/autoload.php")) {
