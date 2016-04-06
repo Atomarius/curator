@@ -5,7 +5,7 @@ return [
     'Application'       => function (ContainerInterface $c) {
         $app = new \Symfony\Component\Console\Application();
         $app->add(new \Curator\Application\MakeCommand($c));
-        $app->add(new \Curator\Application\ApplyCommand($c));
+        $app->add(new \Curator\Application\ApplyCommand());
 
         return $app;
     },

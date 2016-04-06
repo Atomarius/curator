@@ -4,31 +4,35 @@ namespace Curator\Application;
 
 use Interop\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ApplyCommand extends Command
 {
-    private $container;
-
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
-        parent::__construct();
-    }
-
     protected function configure()
     {
-        $this->setName('apply')
-            ->setDescription('Apply change to CHANGELOG.md');
+        $this
+            ->setName('apply')
+            ->setDescription('Apply change to CHANGELOG.md')
+            ->addArgument(
+                'source',
+                InputArgument::REQUIRED,
+                'Name of inputfile'
+            )
+            ->addArgument(
+                'target',
+                InputArgument::OPTIONAL,
+                'Name of outputfile',
+                'CHANGELOG.md'
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $container = $this->container;
+        $source = $input->getArgument('source');
+        $target = $input->getArgument('target');
 
-        $source = $container->get('MarkdownWriter.config')['filename'];
-        $target = 'CHANGELOG.md';
         if (!file_exists($source)) {
             $output->writeln("Source file {$source} does not exist");
 
@@ -41,7 +45,8 @@ class ApplyCommand extends Command
             return 1;
         }
 
-        $data = str_replace('{unreleased}', '{unreleased}' . file_get_contents($source), file_get_contents($target));
+        $replace = '{unreleased}' . file_get_contents($source);
+        $data = str_replace('{unreleased}', $replace, file_get_contents($target));
         file_put_contents($target, $data);
         unlink($source);
 
