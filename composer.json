@@ -1,6 +1,8 @@
 {
   "name": "elsuperbeano/curator",
-  "description": "Changelog generator",
+  "description": "Comprehensive Documentation with PHP",
+  "keywords": ["package", "documentation"],
+  "type": "library",
   "license": "MIT",
   "authors": [
     {
