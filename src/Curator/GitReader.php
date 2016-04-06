@@ -8,9 +8,8 @@ class GitReader
     {
         $options = $this->processOptions($options);
 
-        $command = "git log {$options['range']} --pretty=format:%s";
-
-        exec($command, $output);
+        exec('git fetch -u');
+        exec("git log {$options['range']} --pretty=format:%s", $output);
 
         return $output;
     }
