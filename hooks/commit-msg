@@ -1,4 +1,4 @@
-#!/usr/bin/php
+#!/usr/bin/env php
 <?php
 $config = include dirname(__DIR__) . '/config/curator.php';
 $line = fgets(fopen($argv[1], 'r'));
