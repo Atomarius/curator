@@ -6,6 +6,7 @@ use Curator\ChangelogWriter;
 use Interop\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class MakeCommand extends Command
@@ -20,16 +21,22 @@ class MakeCommand extends Command
 
     protected function configure()
     {
-        $this->setName('make')
-            ->setDescription('Make new changelog');
+        $this
+            ->setName('make')
+            ->setDescription('Make new changelog')            ->addArgument(
+                'filename',
+                InputArgument::OPTIONAL,
+                'Name of outputfile'
+            );
+//        ->addOption('from', null, InputOption::VALUE_REQUIRED)
+//        ->addOption('to', null, InputOption::VALUE_REQUIRED);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         /** @var ChangelogWriter $changelogWriter */
         $changelogWriter = $this->container->get('ChangelogWriter');
-        $filename = 'CHANGELOG_TMP.md';
-
+        $filename = $input->hasArgument('filename') ? $input->getArgument('filename') : 'CHANGELOG_TMP.md';
         $changelogWriter->write($filename);
         $output->writeln("Changelog generated {$filename}");
 
