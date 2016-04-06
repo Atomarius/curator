@@ -1,0 +1,33 @@
+<?php
+
+namespace Curator\Application;
+
+use Interop\Container\ContainerInterface;
+
+trait ContainerAware
+{
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
+     * @return ContainerInterface
+     */
+    public function getContainer()
+    {
+        return $this->container;
+    }
+
+    /**
+     * @param ContainerInterface $container
+     *
+     * @return $this
+     */
+    public function setContainer($container)
+    {
+        $this->container = $container;
+
+        return $this;
+    }
+}

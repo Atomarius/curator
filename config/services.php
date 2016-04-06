@@ -4,8 +4,9 @@ use Interop\Container\ContainerInterface;
 return [
     'Application'       => function (ContainerInterface $c) {
         $app = new \Symfony\Component\Console\Application();
-        $app->add(new \Curator\Application\MakeCommand($c));
+        $app->add((new \Curator\Application\MakeCommand())->setContainer($c));
         $app->add(new \Curator\Application\ApplyCommand());
+        $app->add((new \Curator\Application\HooksCommand())->setContainer($c));
 
         return $app;
     },
