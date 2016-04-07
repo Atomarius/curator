@@ -8,7 +8,7 @@ class GitReader
     {
         $options = $this->processOptions($options);
 
-        exec('git fetch -u');
+        //exec('git fetch -u');
         exec("git log {$options['range']} --pretty=format:%s", $output);
 
         return $output;
@@ -18,7 +18,7 @@ class GitReader
     {
         $opts['from'] = isset($opts['from']) ? $opts['from'] : '';
         $opts['to'] = isset($opts['to']) ? $opts['to'] : 'HEAD';
-        $opts['from'] = isset($opts['lockfile']) ? file_get_contents($opts['lockfile']) : $opts['from'];
+        $opts['from'] = isset($opts['lockfile']) ? trim(file_get_contents($opts['lockfile'])) : $opts['from'];
         $opts['range'] = !empty($opts['from']) ? implode('..', [$opts['from'], $opts['to']]) : $opts['to'];
 
         return $opts;
