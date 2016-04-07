@@ -18,22 +18,16 @@ class MakeCommand extends Command
         $this
             ->setName('make')
             ->setDescription('Make new changelog')
-            ->addArgument(
-                'filename',
-                InputArgument::OPTIONAL,
-                'Name of outputfile',
-                'CHANGELOG_TMP'
-            )
-        ->addOption('from', null, InputOption::VALUE_REQUIRED)
-        ->addOption('to', null, InputOption::VALUE_REQUIRED)
-        ->addOption('lockfile', null, InputOption::VALUE_REQUIRED);
+            ->addArgument('revision range', InputArgument::OPTIONAL, 'Show only commits in the specified revision range')
+            ->addOption('file', 'f', InputOption::VALUE_REQUIRED, 'Name of outputfile', 'CHANGELOG_TMP')
+            ->addOption('lockfile', '-l', InputOption::VALUE_REQUIRED);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         /** @var ChangelogWriter $changelogWriter */
         $changelogWriter = $this->getContainer()->get('ChangelogWriter');
-        $filename = $input->getArgument('filename');
+        $filename = $input->getOption('file');
         $changelogWriter->write($filename, $input->getOptions());
         $output->writeln("Changelog generated {$filename}");
 
