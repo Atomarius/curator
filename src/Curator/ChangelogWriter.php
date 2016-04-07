@@ -26,12 +26,12 @@ class ChangelogWriter
 
     /**
      * @param string $filename
-     * @param array $options
+     * @param array  $args
      */
-    public function write($filename, $options = [])
+    public function write($filename, $args = [])
     {
         file_exists($filename) && unlink($filename);
-        $content = $this->sortContent($this->repoReader->read($options));
+        $content = $this->sortContent($this->repoReader->read($args));
         foreach ($content as $group => $messages) {
             if (empty($messages)) {
                 continue;

@@ -28,7 +28,7 @@ class MakeCommand extends Command
         /** @var ChangelogWriter $changelogWriter */
         $changelogWriter = $this->getContainer()->get('ChangelogWriter');
         $filename = $input->getOption('file');
-        $changelogWriter->write($filename, $input->getOptions());
+        $changelogWriter->write($filename, $input->getArguments());
         $output->writeln("Changelog generated {$filename}");
 
         return 0;
