@@ -8,8 +8,16 @@
 $ php composer.phar require elsuperbeano/curator
 ```
 
+```sh
+$ php composer.phar global require --dev elsuperbeano/curator:dev-master
+```
+
 ## Run
 
 ```sh
 $ ./vendor/bin/curator
+```
+
+```sh
+$ ~/.composer/vendor/bin/curator
 ```
