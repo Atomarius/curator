@@ -8,6 +8,8 @@ $dir = [
 
 if (file_exists("{$dir['cwd']}/vendor/autoload.php")) {
     require_once "{$dir['cwd']}/vendor/autoload.php";
+} else {
+    require_once __DIR__.'/../../../autoload.php';
 }
 
 $definitions = [];
