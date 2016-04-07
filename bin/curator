@@ -1,19 +1,12 @@
 #!/usr/bin/env php
 <?php
 
-function include_if_exists($file) {
-    return file_exists($file) ? include $file : false;
-}
-
-if ((!$loader = include_if_exists(__DIR__.'/../vendor/autoload.php')) && (!$loader = include_if_exists(__DIR__.'/../../../autoload.php'))) {
-    echo 'You must set up the project dependencies using `composer install`'.PHP_EOL.
-        exit(1);
-}
-
 $dir = [
     'cwd' => getcwd(),
-    'app' => dirname(__DIR__),
+    'curator.root' => dirname(__DIR__),
 ];
+
+include "{$dir['curator.root']}/src/bootstrap.php";
 
 $definitions = [];
 
@@ -23,7 +16,7 @@ foreach ($dir as $directory) {
     }
 }
 
-$definitions = array_replace_recursive($definitions, include "{$dir['app']}/config/services.php");
+$definitions = array_replace_recursive($definitions, include "{$dir['curator.root']}/config/services.php");
 
 // creating lightweight DI container
 $container = \Curator\Application\ContainerBuilder::build($definitions);
