@@ -15,7 +15,7 @@ return [
     'ChangelogWriter.config'      => [
         'replace'  => PHP_EOL . PHP_EOL . '### <index>' . PHP_EOL,
         'index'    => [
-            'feat'     => 'Features', // A new feature
+            'feat'     => 'New Features', // A new feature
             'fix'      => 'Bug Fixes', // A bug fix
             'docs'     => 'Documentation', // Documentation only changes
             'style'    => 'Style', // Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)

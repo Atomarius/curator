@@ -21,3 +21,28 @@ $ ./vendor/bin/curator
 ```sh
 $ ~/.composer/vendor/bin/curator
 ```
+
+### Changelog Example
+
+If the your gitlog subject lines since your last release look like this
+
+```git
+    feat(SomeCoolStuff): Added awesome feature
+    fix(ImportantClass): Fixed issue
+```
+
+Then you run curator with default configuration
+
+```sh
+    $ curator make my-last-release..HEAD
+```
+
+And you will get CHANGELOG_TMP containing
+
+```
+    ### New Feature
+    * **SomeCoolStuff**: Added awesome feature
+
+    ### Bug Fixes
+    * **ImportantClass**: Fixed issue
+```
