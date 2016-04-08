@@ -26,5 +26,4 @@ return [
             'misc'     => 'Miscellaneous'
         ],
     ],
-    'curator.root' => dirname(__DIR__),
 ];

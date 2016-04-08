@@ -33,4 +33,5 @@ return [
 
         return new \Curator\CommitFormatter($c->get('CommitFormatter.config'), $processors);
     },
+    'curator.root' => dirname(__DIR__),
 ];
