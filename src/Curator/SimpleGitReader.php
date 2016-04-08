@@ -2,7 +2,7 @@
 
 namespace Curator;
 
-class GitReader
+class SimpleGitReader
 {
     /** @var Shell */
     private $shell;

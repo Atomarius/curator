@@ -5,15 +5,15 @@ namespace Curator;
 class ChangelogWriter
 {
     private $config;
-    /** @var GitReader repoReader */
+    /** @var SimpleGitReader repoReader */
     private $repoReader;
     /** @var CommitFormatter */
     private $commitFormatter;
     
     /**
-     * @param array $config
+     * @param array           $config
      * @param CommitFormatter $commitFormatter
-     * @param GitReader $repoReader
+     * @param SimpleGitReader $repoReader
      */
     public function __construct($config, $repoReader, $commitFormatter)
     {
