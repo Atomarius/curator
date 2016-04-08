@@ -20,7 +20,7 @@ class MakeCommand extends Command
             ->setDescription('Make new changelog')
             ->addArgument('revision range', InputArgument::OPTIONAL, 'Show only commits in the specified revision range')
             ->addOption('file', 'f', InputOption::VALUE_REQUIRED, 'Name of outputfile', 'CHANGELOG_TMP')
-            ->addOption('lockfile', '-l', InputOption::VALUE_REQUIRED);
+            ->addOption('lockfile', 'l', InputOption::VALUE_REQUIRED);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
