@@ -19,14 +19,16 @@ class CommitFormatter
     private $replace;
     /** @var array */
     private $fields = [];
+    /** @var string */
     private $index;
-    private $processors;
+    /** @var array */
+    private $formatters = [];
 
     /**
      * @param array $config
-     * @param array $processors
+     * @param array $formatters
      */
-    public function __construct($config, $processors)
+    public function __construct($config, $formatters)
     {
         $this->assertConfigIsValid($config);
         $this->pattern = $config['pattern'];
@@ -34,7 +36,7 @@ class CommitFormatter
         $this->fields = $fields[1];
         $this->replace = $config['replace'];
         $this->index = $config['index'];
-        $this->processors = $processors;
+        $this->formatters = $formatters;
     }
 
     private function assertConfigIsValid($config)
@@ -58,7 +60,7 @@ class CommitFormatter
         if (preg_match($this->pattern, $commit, $matches)) {
             $commit = $this->replace;
             foreach ($this->fields as $field) {
-                $replace = $this->applyProcessor($field, $matches[$field]);
+                $replace = $this->format($field, $matches[$field]);
                 $commit = str_replace("<{$field}>", $replace, $commit);
             }
             $message = ['index' => $matches[$this->index], 'message' => $commit];
@@ -74,13 +76,13 @@ class CommitFormatter
      *
      * @return string
      */
-    private function applyProcessor($field, $value)
+    private function format($field, $value)
     {
-        if (isset($this->processors[$field])) {
-            /** @var $processor \Curator\FieldFormatter */
-            $processor = $this->processors[$field];
+        if (isset($this->formatters[$field])) {
+            /** @var $formatter \Curator\FieldFormatter */
+            $formatter = $this->formatters[$field];
 
-            return $processor->process($value);
+            return $formatter->process($value);
         }
         return $value;
     }
