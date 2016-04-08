@@ -2,8 +2,8 @@
 <?php
 
 $dir = [
-    'cwd' => getcwd(),
     'curator.root' => dirname(__DIR__),
+    'cwd' => getcwd(),
 ];
 
 include "{$dir['curator.root']}/src/bootstrap.php";
