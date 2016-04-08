@@ -4,12 +4,25 @@ namespace Curator;
 
 class GitReader
 {
+    /** @var Shell */
+    private $shell;
+
+    /**
+     * GitReader constructor.
+     *
+     * @param $shell
+     */
+    public function __construct($shell)
+    {
+        $this->shell = $shell;
+    }
+
     public function read($args = [])
     {
         $args = $this->processOptions($args);
 
-        exec('git fetch -u');
-        exec("git log {$args['revision range']} --pretty=format:%s", $output);
+        $this->shell->exec('git fetch -u');
+        $this->shell->exec("git log {$args['revision range']} --pretty=format:%s", $output);
 
         return $output;
     }

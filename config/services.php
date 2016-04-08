@@ -16,7 +16,7 @@ return [
         return new \Curator\FieldFormatter($config);
     },
     'GitReader'         => function (ContainerInterface $c) {
-        return new \Curator\GitReader();
+        return new \Curator\GitReader(new \Curator\Shell());
     },
     'ChangelogWriter'   => function (ContainerInterface $c) {
         return new \Curator\ChangelogWriter(
