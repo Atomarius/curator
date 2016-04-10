@@ -40,7 +40,7 @@ class SimpleGitReader
     {
         $opts['from'] = isset($opts['from']) ? $opts['from'] : '';
         $opts['to'] = isset($opts['to']) ? $opts['to'] : 'HEAD';
-        $opts['from'] = isset($opts['lockfile']) ? trim(file_get_contents($opts['lockfile'])) : $opts['from'];
+        $opts['from'] = isset($opts['version-file']) ? trim(file_get_contents($opts['version-file'])) : $opts['from'];
         $opts['revision range'] = !empty($opts['from']) ? implode('..', [$opts['from'], $opts['to']]) : $opts['revision range'];
 
         return $opts;
