@@ -13,7 +13,7 @@ return [
     'JiraLinkFormatter' => function (ContainerInterface $c) {
         $config = $c->get('JiraLinkFormatter.config');
 
-        return new \Curator\FieldFormatter($config);
+        return new \Curator\RegexFormatter($config);
     },
     'GitReader'         => function (ContainerInterface $c) {
         return new \Curator\SimpleGitReader(new \Curator\Shell());

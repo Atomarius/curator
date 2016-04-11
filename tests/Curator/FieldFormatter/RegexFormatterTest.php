@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Curator;
+namespace Curator\FieldFormatter;
 
-class FieldFormatterTest extends \PHPUnit_Framework_TestCase
+class RegexFormatterTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var FieldFormatter */
+    /** @var RegexFormatter */
     private $fixture;
 
     protected function setUp()
@@ -22,7 +22,7 @@ class FieldFormatterTest extends \PHPUnit_Framework_TestCase
             'pattern' => '/(?<foo>[A-Z]+\-\d+)/',
             'replace' => '[<foo>](http://myurl/<foo>)'
         ];
-        $this->fixture = new FieldFormatter($config);
+        $this->fixture = new RegexFormatter($config);
     }
 
     public function testReplacesMatches()

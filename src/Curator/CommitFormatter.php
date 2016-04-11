@@ -79,7 +79,7 @@ class CommitFormatter
     private function format($field, $value)
     {
         if (isset($this->formatters[$field])) {
-            /** @var $formatter \Curator\FieldFormatter */
+            /** @var $formatter \Curator\FieldFormatter\FieldFormatter */
             $formatter = $this->formatters[$field];
 
             return $formatter->process($value);

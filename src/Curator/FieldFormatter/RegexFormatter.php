@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Curator;
+namespace Curator\FieldFormatter;
 
 use Curator\InvalidConfigurationException;
 
-class FieldFormatter
+class RegexFormatter implements FieldFormatter
 {
     /** @var string */
     private $pattern;
