@@ -24,7 +24,7 @@ class MakeCommandTest extends \PHPUnit_Framework_TestCase
     {
         $args = ['command' => 'make', 'revision range' => 'FROM..TO'];
         $writer = M::mock('Curator\ChangelogWriter');
-        $writer->shouldReceive('write')->with('CHANGELOG_TMP', $args);
+        $writer->shouldReceive('write');
         $def = ['ChangelogWriter' => $writer];
         $cont = ContainerBuilder::build($def);
 
