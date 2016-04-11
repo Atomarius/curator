@@ -13,11 +13,23 @@ namespace Curator;
 
 class Shell
 {
+    /**
+     * @param string     $command
+     * @param array|null $output
+     * @param int        $return_var
+     *
+     * @return string
+     */
     public function exec($command, array &$output = null, &$return_var = null)
     {
         return exec($command, $output, $return_var);
     }
 
+    /**
+     * @param string $command
+     *
+     * @return string
+     */
     public function shell_exec($command)
     {
         return shell_exec($command);

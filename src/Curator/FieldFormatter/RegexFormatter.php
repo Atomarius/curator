@@ -43,12 +43,7 @@ class RegexFormatter implements FieldFormatter
             }
         }
     }
-    
-    /**
-     * @param string $value
-     *
-     * @return string
-     */
+
     public function process($value)
     {
         $matches = [];

@@ -19,13 +19,18 @@ class SimpleGitReader
     /**
      * GitReader constructor.
      *
-     * @param $shell
+     * @param Shell $shell
      */
     public function __construct($shell)
     {
         $this->shell = $shell;
     }
 
+    /**
+     * @param array $args
+     *
+     * @return array
+     */
     public function read($args = [])
     {
         $args = $this->processOptions($args);
