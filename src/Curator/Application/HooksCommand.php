@@ -46,7 +46,7 @@ class HooksCommand extends Command
                 $hook == '' || $this->install($output, $hook);
                 break;
             case 'remove':
-                $hook == '' || file_exists($this->gitdir($hook)) && unlink($this->gitdir($hook));
+                $hook == '' || $this->remove($hook);
                 break;
             default:
                 foreach (glob($this->cwdir('*')) as $hook) {
@@ -55,22 +55,6 @@ class HooksCommand extends Command
         }
 
         return 0;
-    }
-
-
-    private function appdir($hook)
-    {
-        return "{$this->getContainer()->get('curator.root')}/hooks/{$hook}";
-    }
-    
-    private function cwdir($hook)
-    {
-        return "hooks/{$hook}";
-    }
-
-    private function gitdir($hook)
-    {
-        return ".git/hooks/{$hook}";
     }
 
     /**
@@ -93,5 +77,30 @@ class HooksCommand extends Command
         file_exists($this->gitdir($hook)) || symlink("../../hooks/{$hook}", $this->gitdir($hook));
 
         return 0;
+    }
+
+    /**
+     * @param string $hook
+     *
+     * @return bool
+     */
+    private function remove($hook)
+    {
+        return file_exists($this->gitdir($hook)) && unlink($this->gitdir($hook));
+    }
+
+    private function appdir($hook)
+    {
+        return "{$this->getContainer()->get('curator.root')}/hooks/{$hook}";
+    }
+    
+    private function cwdir($hook)
+    {
+        return "hooks/{$hook}";
+    }
+
+    private function gitdir($hook)
+    {
+        return ".git/hooks/{$hook}";
     }
 }
