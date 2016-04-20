@@ -46,7 +46,7 @@ class CommitFormatterTest extends \PHPUnit_Framework_TestCase
                 $configB,
                 'message',
             ]
-        ];  
+        ];
     }
 
     /**
