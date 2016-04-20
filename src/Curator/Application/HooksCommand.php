@@ -74,6 +74,7 @@ class HooksCommand extends Command
             }
             copy($this->appdir($hook), $this->cwdir($hook));
         }
+        chmod($this->cwdir($hook), 0777);
         file_exists($this->gitdir($hook)) || symlink("../../hooks/{$hook}", $this->gitdir($hook));
 
         return 0;
