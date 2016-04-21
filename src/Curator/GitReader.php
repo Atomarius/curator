@@ -17,13 +17,12 @@ class GitReader
     private $shell;
 
     /**
-     * GitReader constructor.
-     *
      * @param Shell $shell
+     * @param array $options
      */
-    public function __construct($shell, $options=[])
+    public function __construct($shell, $options = [])
     {
-        $this->format = isset($options['format']) ? isset($options['format']) : '%s';
+        $this->format = isset($options['format']) ? isset($options['format']) : '%B';
         $this->shell = $shell;
     }
 
@@ -36,14 +35,11 @@ class GitReader
     {
         $args = $this->processOptions($args);
 
-        $this->shell->exec('git fetch -u');
+        $delim = "---<EOM>---";
+        $command = "git log {$args['revision range']} --pretty=format:\"{$this->format}{$delim}\"";
+        $output = substr($this->shell->shell_exec($command), 0, -1 * strlen($delim . PHP_EOL));
+        $output = explode(PHP_EOL . $delim . PHP_EOL, $output);
 
-        $command = "git log {$args['revision range']} --pretty=format:\"%B%h---<EOM>---\"";
-        $output = $this->shell->shell_exec($command);
-        $output = explode("---<EOM>---\n", $output);
-
-        var_dump($output);
-        die();
         return $output;
     }
 
