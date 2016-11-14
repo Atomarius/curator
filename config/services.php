@@ -7,6 +7,7 @@ return [
         $app->add((new \Curator\Application\MakeCommand())->setContainer($c));
         $app->add(new \Curator\Application\ApplyCommand());
         $app->add((new \Curator\Application\HooksCommand())->setContainer($c));
+        $app->add(new \Curator\Application\TableOfContentsCommand());
 
         return $app;
     },
