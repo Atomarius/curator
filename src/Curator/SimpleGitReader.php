@@ -11,18 +11,18 @@
 
 namespace Curator;
 
-class GitReader
+class SimpleGitReader
 {
     /** @var Shell */
     private $shell;
 
     /**
+     * GitReader constructor.
+     *
      * @param Shell $shell
-     * @param array $options
      */
-    public function __construct($shell, $options = [])
+    public function __construct($shell)
     {
-        $this->format = isset($options['format']) ? isset($options['format']) : '%B';
         $this->shell = $shell;
     }
 
@@ -35,10 +35,8 @@ class GitReader
     {
         $args = $this->processOptions($args);
 
-        $delim = "---<EOM>---";
-        $command = "git log {$args['revision range']} --pretty=format:\"{$this->format}{$delim}\"";
-        $output = substr($this->shell->shell_exec($command), 0, -1 * strlen($delim . PHP_EOL));
-        $output = explode(PHP_EOL . $delim . PHP_EOL, $output);
+        $this->shell->exec('git fetch -u');
+        $this->shell->exec("git log {$args['revision range']} --pretty=format:%s", $output);
 
         return $output;
     }

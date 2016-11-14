@@ -1,10 +1,19 @@
 <?php
 
-namespace Curator;
+/*
+ * This file is part of Curator.
+ *
+ * (c) Marius Schütte <marius.schuette@googlemail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Curator\FieldFormatter;
 
 use Curator\InvalidConfigurationException;
 
-class FieldFormatter
+class RegexFormatter implements FieldFormatter
 {
     /** @var string */
     private $pattern;
@@ -34,12 +43,7 @@ class FieldFormatter
             }
         }
     }
-    
-    /**
-     * @param string $value
-     *
-     * @return string
-     */
+
     public function process($value)
     {
         $matches = [];

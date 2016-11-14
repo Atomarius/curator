@@ -1,10 +1,19 @@
 <?php
 
-namespace Curator;
+/*
+ * This file is part of Curator.
+ *
+ * (c) Marius Schütte <marius.schuette@googlemail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
-class FieldFormatterTest extends \PHPUnit_Framework_TestCase
+namespace Curator\FieldFormatter;
+
+class RegexFormatterTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var FieldFormatter */
+    /** @var RegexFormatter */
     private $fixture;
 
     protected function setUp()
@@ -13,7 +22,7 @@ class FieldFormatterTest extends \PHPUnit_Framework_TestCase
             'pattern' => '/(?<foo>[A-Z]+\-\d+)/',
             'replace' => '[<foo>](http://myurl/<foo>)'
         ];
-        $this->fixture = new FieldFormatter($config);
+        $this->fixture = new RegexFormatter($config);
     }
 
     public function testReplacesMatches()

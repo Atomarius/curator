@@ -14,10 +14,15 @@ return [
     'JiraLinkFormatter' => function (ContainerInterface $c) {
         $config = $c->get('JiraLinkFormatter.config');
 
-        return new \Curator\FieldFormatter($config);
+        return new \Curator\FieldFormatter\RegexFormatter($config);
+    },
+    'TypeFormatter' => function (ContainerInterface $c) {
+        $config = $c->get('TypeFormatter.config');
+
+        return new \Curator\FieldFormatter\SearchAndReplaceFormatter($config);
     },
     'GitReader'         => function (ContainerInterface $c) {
-        return new \Curator\GitReader();
+        return new \Curator\SimpleGitReader(new \Curator\Shell());
     },
     'ChangelogWriter'   => function (ContainerInterface $c) {
         return new \Curator\ChangelogWriter(
@@ -34,4 +39,5 @@ return [
 
         return new \Curator\CommitFormatter($c->get('CommitFormatter.config'), $processors);
     },
+    'curator.root' => dirname(__DIR__),
 ];

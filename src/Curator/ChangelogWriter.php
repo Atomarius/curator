@@ -1,19 +1,28 @@
 <?php
 
+/*
+ * This file is part of Curator.
+ *
+ * (c) Marius Schütte <marius.schuette@googlemail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Curator;
 
 class ChangelogWriter
 {
     private $config;
-    /** @var GitReader repoReader */
+    /** @var SimpleGitReader repoReader */
     private $repoReader;
     /** @var CommitFormatter */
     private $commitFormatter;
     
     /**
-     * @param array $config
+     * @param array           $config
      * @param CommitFormatter $commitFormatter
-     * @param GitReader $repoReader
+     * @param SimpleGitReader $repoReader
      */
     public function __construct($config, $repoReader, $commitFormatter)
     {
@@ -26,12 +35,12 @@ class ChangelogWriter
 
     /**
      * @param string $filename
-     * @param array $options
+     * @param array  $args
      */
-    public function write($filename, $options = [])
+    public function write($filename, $args = [])
     {
         file_exists($filename) && unlink($filename);
-        $content = $this->sortContent($this->repoReader->read($options));
+        $content = $this->sortContent($this->repoReader->read($args));
         foreach ($content as $group => $messages) {
             if (empty($messages)) {
                 continue;
